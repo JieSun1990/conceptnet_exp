@@ -1,11 +1,7 @@
-IsA	baseball	sport	1
-IsA	yo-yo	toy	1
-CapableOf	dog	bark	1
-HasProperty	something that be very good	good	1
-IsA	dog	mammal	1
-IsA	polo	game	1
-MadeOf	bottle	plastic	1
-MadeOf	book	paper	1
-HasProperty	sex	fun	1
-IsA	gold	metal	1
+IsA	baseball	sport	
+IsA	yo-yo	toy	
+CapableOf	dog	bark	
+HasProperty	something that be very good	good	
+IsA	dog	mammal	
+IsA	polo	game	
 

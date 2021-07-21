@@ -1,6 +1,4 @@
-# sentences.py
 
-# try do without class
 import csv
 import re
 import numpy as np
