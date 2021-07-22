@@ -4,4 +4,3 @@ CapableOf	dog	bark
 HasProperty	something that be very good	good	
 IsA	dog	mammal	
 IsA	polo	game	
-

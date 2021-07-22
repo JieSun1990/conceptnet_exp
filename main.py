@@ -1,4 +1,4 @@
-
+import torch
 import csv
 import re
 import numpy as np
@@ -19,6 +19,8 @@ multiple_templates = 'relation_map_multiple.json'
 
 data_repo = './data/'
 test_data = 'test2.txt' #@ SJ made
+
+#-----------------------------------------
 
 # 1. DirectTemplate
 regex = '[A-Z][^A-Z]*'
@@ -131,13 +133,12 @@ def apply_template4(relation, head, tail):
 #test
 apply_template4('HasProperty','basketball player','tall') #works
 
+# 5. EnumeratedTemplate, multiple templates, select the best sentence
 from torch.utils.data import Dataset, DataLoader
 from torch import nn
-from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM, \
-                                    GPT2LMHeadModel, GPT2Tokenizer
-
-# 5. EnumeratedTemplate, multiple templates, select the best sentence
-
+from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM, GPT2LMHeadModel, GPT2Tokenizer
+bert_model = 'bert-large-uncased'
+gpt2_model = 'gpt2'
 template_loc='./templates/relation_map_multiple.json'
 nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
 enc = GPT2Tokenizer.from_pretrained('gpt2') 
@@ -225,3 +226,33 @@ def apply_template5(relation, head, tail):
 #test
 apply_template5('HasProperty','basketball player','tall') #works
 apply_template5('MadeOf','book','paper') #works
+
+
+# 6. Process the conceptnet test data (remove those with 0)
+# 6.2 Batch processing
+
+test_data = 'test3.txt' #@ SJ made
+# Load tuples
+tuple_dir = data_repo + test_data
+sens = []
+with open(tuple_dir) as tsvfile:
+    reader = csv.reader(tsvfile, delimiter='\t')
+    for row in reader:
+        #print(row[0],row[1],row[2])
+        sen = apply_template5(row[0],row[1],row[2])
+        print(sen)
+        sens.append(sen)
+
+# Save to file
+f = open(sent_dir, 'w')
+for ele in sens:
+    f.write(ele+'\n')
+f.close() #output is 1 sentence per row in sent.txt
+
+
+# =============== code factory
+# Save to file method 1
+sent_dir = data_repo + 'sent.txt'
+with open(sent_dir, 'a') as the_file:
+    the_file.write(str(sens)) #output is a list of strings in sent.txt
+
